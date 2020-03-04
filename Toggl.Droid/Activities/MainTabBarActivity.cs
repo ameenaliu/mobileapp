@@ -202,6 +202,9 @@ namespace Toggl.Droid.Activities
 
         private async Task showFragment(int fragmentId)
         {
+            if (!Lifecycle.CurrentState.IsAtLeast(AndroidX.Lifecycle.Lifecycle.State.Started))
+                return;
+            
             SupportFragmentManager.ExecutePendingTransactions();
             var transaction = SupportFragmentManager.BeginTransaction();
             var fragment = await getCachedFragment(fragmentId);
