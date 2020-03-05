@@ -202,9 +202,6 @@ namespace Toggl.Droid.Activities
 
         private async Task showFragment(int fragmentId)
         {
-            if (!Lifecycle.CurrentState.IsAtLeast(AndroidX.Lifecycle.Lifecycle.State.Started))
-                return;
-            
             SupportFragmentManager.ExecutePendingTransactions();
             var transaction = SupportFragmentManager.BeginTransaction();
             var fragment = await getCachedFragment(fragmentId);
@@ -225,7 +222,7 @@ namespace Toggl.Droid.Activities
                     .Hide(activeFragment);
             }
 
-            transaction.Commit();
+            transaction.CommitAllowingStateLoss();
 
             if (fragment is MainFragment mainFragmentToShow)
                 mainFragmentToShow.SetFragmentIsVisible(true);
